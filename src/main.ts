@@ -1,13 +1,16 @@
 import { invoke } from "@tauri-apps/api/core";
 
-async function main() {
-  const message = await invoke<string>("hello_world");
-  const element = document.querySelector<HTMLHeadingElement>("#message");
+interface TrackInfo {
+  title: string,
+  artist: string,
+  album: string,
+  is_playing: boolean,
+}
 
-  if (element)
-  {
-    element.textContent = message;
-  }
+async function main() {
+  const track = await invoke<TrackInfo>("get_track_info");
+
+  console.log(track);
 }
 
 main();
