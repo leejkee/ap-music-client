@@ -7,13 +7,17 @@ struct TrackInfo {
 }
 
 #[tauri::command]
-fn get_track_info() -> TrackInfo {
-    TrackInfo { 
-        title: "Hello World".to_string(),
-        artist: "Unknow Artist".to_string(), 
-        album: "Unknow Album".to_string(), 
-        is_playing: false, 
+fn get_track_info(mode: String) -> Result<TrackInfo, String> {
+    if mode != "current" {
+        return Err(format!("unsupported track mode: {mode}"));
     }
+
+    Ok(TrackInfo {
+        title: "Hello World".to_string(),
+        artist: "Unknow Artist".to_string(),
+        album: "Unknow Album".to_string(),
+        is_playing: false,
+    })
 }
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
@@ -21,7 +25,6 @@ fn get_track_info() -> TrackInfo {
 fn hello_world() -> String {
     "Hello World from Rust".to_string()
 }
-
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {

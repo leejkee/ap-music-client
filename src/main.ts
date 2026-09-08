@@ -8,9 +8,13 @@ interface TrackInfo {
 }
 
 async function main() {
-  const track = await invoke<TrackInfo>("get_track_info");
+  try {
+    const track = await invoke<TrackInfo>("get_track_info", { mode: "test", });
+    console.log(track);
+  } catch (error) {
+    console.error("Failed to get track:", error);
+  }
 
-  console.log(track);
 }
 
 main();
