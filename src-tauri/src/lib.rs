@@ -1,3 +1,6 @@
+use tauri::{webview::WebviewWindowBuilder, WebviewUrl};
+
+
 #[derive(serde::Serialize)]
 struct TrackInfo {
     title: String,
@@ -32,6 +35,21 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .invoke_handler(tauri::generate_handler![hello_world])
         .invoke_handler(tauri::generate_handler![get_track_info])
+        .setup(|app| {
+            let url = "https://music.apple.com/"
+                .parse()
+                .expect("invalid Apple Music URL");
+
+            WebviewWindowBuilder::new(
+                app,
+                "apple-music",
+                WebviewUrl::External(url),
+            )
+            .title("Apple Music")
+            .build()?;
+
+            Ok(())
+        })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
