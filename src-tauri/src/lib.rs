@@ -46,6 +46,7 @@ pub fn run() {
                 WebviewUrl::External(url),
             )
             .title("Apple Music")
+            .initialization_script(include_str!("../scripts/apple-music.js"))
             .build()?;
 
             Ok(())
